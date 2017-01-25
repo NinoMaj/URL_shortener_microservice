@@ -2,6 +2,8 @@ branch-defaults:
   default:
     environment: dev-enva
     group_suffix: null
+  master:
+    environment: dev-enva
 global:
   application_name: URL_Shortener_Microservice
   branch: null
