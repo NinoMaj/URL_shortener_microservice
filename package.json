@@ -1,0 +1,52 @@
+{
+  "name": "url-shoretner-microservice",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.5.0",
+    "express": "*",
+    "express-handlebars": "*",
+    "mongodb": "^2.2.22"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-concurrent": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-htmlmin": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-express-server": "*",
+    "grunt-open": "*",
+    "grunt-rev": "*",
+    "grunt-svgmin": "*",
+    "grunt-usemin": "*",
+    "load-grunt-tasks": "*",
+    "time-grunt": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "description": "Description of your project here.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NinoMaj/URL_shortener_microservice.git"
+  },
+  "author": "NinoMaj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NinoMaj/URL_shortener_microservice/issues"
+  },
+  "homepage": "https://github.com/NinoMaj/URL_shortener_microservice#readme"
+}

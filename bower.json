@@ -1,0 +1,10 @@
+{
+  "name": "url-shortner-microservice",
+  "version": "0.0.0",
+  "dependencies": {
+    "inuit.css": "~5.0.0",
+    "bourbon": "~3.1.8",
+    "modernizr": "~2.6.2"
+  },
+  "devDependencies": {}
+}
