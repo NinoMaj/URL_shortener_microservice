@@ -8,7 +8,7 @@ let express = require('express'),
     port = 3000,
     MongoClient = require('mongodb').MongoClient,
     assert = require('assert'),
-    compression = require('compression');
+    //compression = require('compression');
 
 /*
  * Use Handlebars for templating
@@ -23,7 +23,7 @@ MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {
     let URLcollection = db.collection('URL');
 
     // For gzip compression
-    app.use(compression());
+    //app.use(compression());
 
     /*
      * Config for Production and Development
