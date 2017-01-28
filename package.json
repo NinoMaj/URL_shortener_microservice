@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "compression": "^1.6.2",
     "connect": "^3.5.0",
     "express": "*",
     "express-handlebars": "*",
