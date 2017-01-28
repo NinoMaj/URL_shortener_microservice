@@ -83,45 +83,50 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
             shortURL = {};
         console.log('Requested path is: ', reqPath);
         function showResult() {
+            if (shortURL._id) {
+                shortURL._id = undefined
+                };
             shortURL = JSON.stringify(shortURL);
-            console.log(shortURL)
             response.render('result', {
                 result: shortURL
             });
         }
 
         //check is it a short link
-        URLcollection.findOne({ "shortURL": Number(reqPath) }, function (err, doc) {
+        URLcollection.findOne({ "shortURL": Number(reqPath)}, {_id: 0}, function (err, doc) {
             if (doc) {
                 console.log('doc.CompleteURL', doc.CompleteURL);
                 // window.open(doc.CompleteURL, "_self");
                 // window.location.href = "doc.CompleteURL";
-                let redirect = (doc.CompleteURL.includes('http')) ? doc.CompleteURL : 'http://' + doc.CompleteURL;
-                response.redirect(redirect);
+                let redirectLink = (doc.CompleteURL.includes('http')) ? doc.CompleteURL : 'http://' + doc.CompleteURL;
+                response.redirect(redirectLink);
             } else {
                 if (validURL(reqPath)) {
                     console.log("Valid URL format");
                     // checking is URL already in DB
-                    URLcollection.find({ "CompleteURL": reqPath }).toArray(function (err, inDB) {
+                    URLcollection.find({ "CompleteURL": reqPath }, {_id: 0}).toArray(function (err, inDB) {
                         console.log('inDB', inDB + ' ' + inDB.length);
                         if (inDB.length != 0) {
                             // if URL is already in DB
                             console.log("Already in DB", inDB);
-                            shortURL = inDB;
+                            shortURL = inDB[0];
                             showResult();
                         } else {
                             // Creating short URL based on collection length
-                            URLcollection.find({}).toArray(function (err, docs) {
+                            URLcollection.find({}, {_id: 0}).toArray(function (err, doc) {
                                 if (err) throw err
                                 shortURL = {
                                     CompleteURL: reqPath,
-                                    shortURL: docs.length
+                                    ShortURL: doc.length
                                 }
-                                console.log('bla');
+                                console.log('bla bla ', shortURL);
+                                let document = shortURL;
 
                                 // Saving short URL in base
-                                URLcollection.insertOne(shortURL, function (err, data) {
+                                URLcollection.insertOne(document, function (err, data) {
                                     if (err) throw err
+                                    console.log('dla', shortURL);
+                                    console.log('doc', document)
                                     showResult();
                                 });
                             });
