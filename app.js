@@ -7,7 +7,7 @@ let express = require('express'),
     app = express(),
     port = 3000,
     MongoClient = require('mongodb').MongoClient,
-    assert = require('assert'),
+    assert = require('assert');
     //compression = require('compression');
 
 /*
@@ -16,7 +16,8 @@ let express = require('express'),
 let exphbs = require('express-handlebars');
 let hbs;
 
-MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {
+// mongodb://localhost:27017/URLshort
+MongoClient.connect('process.env.DATABASE_URL', function (err, db) {
 
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
