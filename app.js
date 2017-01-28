@@ -17,7 +17,7 @@ let exphbs = require('express-handlebars');
 let hbs;
 
 // mongodb://localhost:27017/URLshort
-MongoClient.connect('ds135069.mlab.com:35069/ninodb', function (err, db) {
+MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/ninodb', function (err, db) {
 
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
