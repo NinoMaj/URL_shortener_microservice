@@ -3,7 +3,7 @@
 /*
  * Express Dependencies
  */
-var express = require('express'),
+let express = require('express'),
     app = express(),
     port = 3000,
     MongoClient = require('mongodb').MongoClient,
@@ -13,13 +13,14 @@ var express = require('express'),
 /*
  * Use Handlebars for templating
  */
-var exphbs = require('express-handlebars');
-var hbs;
+let exphbs = require('express-handlebars');
+let hbs;
 
-// MongoClient.connect('mongodb://localhost:27017/video', function (err, db) {
+MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {
 
-    // assert.equal(null, err);
-    // console.log("Successfully connected to MongoDB.");
+    assert.equal(null, err);
+    console.log("Successfully connected to MongoDB.");
+    let URLcollection = db.collection('URL');
 
     // For gzip compression
     app.use(compression());
@@ -60,7 +61,6 @@ var hbs;
     app.set('view engine', 'handlebars');
 
 
-
     /*
      * Routes
      */
@@ -69,6 +69,71 @@ var hbs;
         response.render('index');
     });
 
+    function validURL(textval) {
+        let urlregex = new RegExp(
+            /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
+        );
+        return urlregex.test(textval);
+    }
+
+    // URL handler route
+    app.get('/:url*', function (request, response, next) {
+        let reqPath = request.path.slice(1),
+            shortURL = {};
+        console.log('Requested path is: ', reqPath);
+        function showResult() {
+            shortURL = JSON.stringify(shortURL);
+            console.log(shortURL)
+            response.render('result', {
+                result: shortURL
+            });
+        }
+
+        //check is it a short link
+        URLcollection.findOne({ "shortURL": Number(reqPath) }, function (err, doc) {
+            if (doc) {
+                console.log('doc.CompleteURL', doc.CompleteURL);
+                // window.open(doc.CompleteURL, "_self");
+                // window.location.href = "doc.CompleteURL";
+                let redirect = (doc.CompleteURL.includes('http')) ? doc.CompleteURL : 'http://' + doc.CompleteURL;
+                response.redirect(redirect);
+            } else {
+                if (validURL(reqPath)) {
+                    console.log("Valid URL format");
+                    // checking is URL already in DB
+                    URLcollection.find({ "CompleteURL": reqPath }).toArray(function (err, inDB) {
+                        console.log('inDB', inDB + ' ' + inDB.length);
+                        if (inDB.length != 0) {
+                            // if URL is already in DB
+                            console.log("Already in DB", inDB);
+                            shortURL = inDB;
+                            showResult();
+                        } else {
+                            // Creating short URL based on collection length
+                            URLcollection.find({}).toArray(function (err, docs) {
+                                if (err) throw err
+                                shortURL = {
+                                    CompleteURL: reqPath,
+                                    shortURL: docs.length
+                                }
+                                console.log('bla');
+
+                                // Saving short URL in base
+                                URLcollection.insertOne(shortURL, function (err, data) {
+                                    if (err) throw err
+                                    showResult();
+                                });
+                            });
+                        }
+                    });
+                } else {
+                    console.log("Not a valid URL format!");
+                    shortURL = "Not a valid URL format";
+                    showResult();
+                }
+            }
+        });
+    });
 
     /*
      * Start it up
@@ -76,4 +141,4 @@ var hbs;
     app.listen(process.env.PORT || port);
     console.log('Express started on port ' + port);
 
-//});
+}); // MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {

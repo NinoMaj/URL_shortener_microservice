@@ -257,8 +257,8 @@ module.exports = function (grunt) {
         'jshint',
         'sass:dev',
         'express:dev',
-        'open:site',
-        'open:editor',
+        //'open:site',
+        // 'open:editor',
         'watch'
     ]);
 

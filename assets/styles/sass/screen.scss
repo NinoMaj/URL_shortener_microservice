@@ -31,3 +31,12 @@
 @import "ui/buttons";
 @import "ui/footer";
 @import "ui/helpers";
+
+.container {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+a {
+    color: $gray2;
+}
