@@ -1,9 +1,9 @@
 branch-defaults:
   default:
-    environment: dev-enva
+    environment: prod
     group_suffix: null
   master:
-    environment: dev-enva
+    environment: prod
 environment-defaults:
   dev-enva:
     branch: null
