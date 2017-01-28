@@ -93,7 +93,7 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
         }
 
         //check is it a short link
-        URLcollection.findOne({ "shortURL": Number(reqPath)}, {_id: 0}, function (err, doc) {
+        URLcollection.findOne({ "ShortURL": Number(reqPath)}, {_id: 0}, function (err, doc) {
             if (doc) {
                 console.log('doc.CompleteURL', doc.CompleteURL);
                 // window.open(doc.CompleteURL, "_self");
