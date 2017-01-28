@@ -4,6 +4,10 @@ branch-defaults:
     group_suffix: null
   master:
     environment: dev-enva
+environment-defaults:
+  dev-enva:
+    branch: null
+    repository: null
 global:
   application_name: URL_Shortener_Microservice
   branch: null
@@ -12,4 +16,4 @@ global:
   default_region: us-west-2
   profile: eb-cli
   repository: null
-  sc: null
+  sc: git

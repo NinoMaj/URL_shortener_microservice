@@ -7,8 +7,8 @@ let express = require('express'),
     app = express(),
     port = 3000,
     MongoClient = require('mongodb').MongoClient,
-    assert = require('assert');
-    //compression = require('compression');
+    assert = require('assert'),
+    compression = require('compression');
 
 /*
  * Use Handlebars for templating
@@ -17,14 +17,14 @@ let exphbs = require('express-handlebars');
 let hbs;
 
 // mongodb://localhost:27017/URLshort
-MongoClient.connect('process.env.DATABASE_URL', function (err, db) {
+MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {
 
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
     let URLcollection = db.collection('URL');
 
     // For gzip compression
-    //app.use(compression());
+    app.use(compression());
 
     /*
      * Config for Production and Development
