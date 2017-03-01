@@ -79,55 +79,59 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
 
     // URL handler route
     app.get('/:url*', function (request, response, next) {
-        let reqPath = request.path.slice(1),
-            shortURL = {};
-        function showResult() {
-            if (shortURL._id) {
-                shortURL._id = undefined
+        console.log('request', request.path.slice(1), typeof request.path.slice(1));
+        if (request.path.slice(1) !== 'favicon.ico') {
+            let reqPath = request.path.slice(1),
+                shortURL = {};
+            function showResult() {
+                if (shortURL._id) {
+                    shortURL._id = undefined
                 };
-            shortURL = JSON.stringify(shortURL);
-            response.render('result', {
-                result: shortURL
-            });
-        }
-
-        //check is it a short link
-        URLcollection.findOne({ "ShortURL": Number(reqPath)}, {_id: 0}, function (err, doc) {
-            if (doc) {
-                response.redirect(redirectLink);
-            } else {
-                if (validURL(reqPath)) {
-                    // checking is URL already in DB
-                    URLcollection.find({ "CompleteURL": reqPath }, {_id: 0}).toArray(function (err, inDB) {
-                        console.log('inDB', inDB + ' ' + inDB.length);
-                        if (inDB.length != 0) {
-                            // if URL is already in DB
-                            shortURL = inDB[0];
-                            showResult();
-                        } else {
-                            // Creating short URL based on collection length
-                            URLcollection.find({}, {_id: 0}).toArray(function (err, doc) {
-                                if (err) throw err
-                                shortURL = {
-                                    CompleteURL: reqPath,
-                                    ShortURL: doc.length
-                                }
-                                let document = shortURL;
-
-                                // Saving short URL in base
-                                URLcollection.insertOne(document, function (err, data) {
-                                    if (err) throw err
-                                    showResult();
-                                });
-                            });
-                        }
-                    });
-                } else {
-                    shortURL = "Not a valid URL format";
-                    showResult();
-                }
+                shortURL = JSON.stringify(shortURL);
+                response.render('result', {
+                    result: shortURL
+                });
             }
-        });
+            //check is it a short link
+            URLcollection.findOne({ "ShortURL": Number(reqPath) }, { _id: 0 }, function (err, doc) {
+                if (doc) {
+                    console.log('doc.CompleteURL', doc.CompleteURL);
+                    response.redirect(doc.CompleteURL);
+                } else {
+                    if (validURL(reqPath)) {
+                        // checking is URL already in DB
+                        URLcollection.find({ "CompleteURL": reqPath }, { _id: 0 }).toArray(function (err, inDB) {
+                            console.log('inDB', inDB + ' ' + inDB.length);
+                            if (inDB.length != 0) {
+                                // if URL is already in DB
+                                shortURL = inDB[0];
+                                showResult();
+                            } else {
+                                // Creating short URL based on collection length
+                                URLcollection.find({}, { _id: 0 }).toArray(function (err, doc) {
+                                    let URLwithHttp = (reqPath.includes('http') ? reqPath : 'http://' + reqPath);
+                                    if (err) throw err
+                                    shortURL = {
+                                        CompleteURL: URLwithHttp,
+                                        ShortURL: doc.length
+                                    }
+                                    let document = shortURL;
+
+                                    // Saving short URL in base
+                                    URLcollection.insertOne(document, function (err, data) {
+                                        if (err) throw err
+                                        showResult();
+                                    });
+                                });
+                            }
+                        });
+                    } else {
+                        shortURL = "Not a valid URL format";
+                        showResult();
+                    }
+                }
+            }); 
+        }
     });
 
     /*
