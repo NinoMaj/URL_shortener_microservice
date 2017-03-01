@@ -81,7 +81,6 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
     app.get('/:url*', function (request, response, next) {
         let reqPath = request.path.slice(1),
             shortURL = {};
-        console.log('Requested path is: ', reqPath);
         function showResult() {
             if (shortURL._id) {
                 shortURL._id = undefined
@@ -95,20 +94,14 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
         //check is it a short link
         URLcollection.findOne({ "ShortURL": Number(reqPath)}, {_id: 0}, function (err, doc) {
             if (doc) {
-                console.log('doc.CompleteURL', doc.CompleteURL);
-                // window.open(doc.CompleteURL, "_self");
-                // window.location.href = "doc.CompleteURL";
-                let redirectLink = (doc.CompleteURL.includes('http')) ? doc.CompleteURL : 'http://' + doc.CompleteURL;
                 response.redirect(redirectLink);
             } else {
                 if (validURL(reqPath)) {
-                    console.log("Valid URL format");
                     // checking is URL already in DB
                     URLcollection.find({ "CompleteURL": reqPath }, {_id: 0}).toArray(function (err, inDB) {
                         console.log('inDB', inDB + ' ' + inDB.length);
                         if (inDB.length != 0) {
                             // if URL is already in DB
-                            console.log("Already in DB", inDB);
                             shortURL = inDB[0];
                             showResult();
                         } else {
@@ -119,21 +112,17 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
                                     CompleteURL: reqPath,
                                     ShortURL: doc.length
                                 }
-                                console.log('bla bla ', shortURL);
                                 let document = shortURL;
 
                                 // Saving short URL in base
                                 URLcollection.insertOne(document, function (err, data) {
                                     if (err) throw err
-                                    console.log('dla', shortURL);
-                                    console.log('doc', document)
                                     showResult();
                                 });
                             });
                         }
                     });
                 } else {
-                    console.log("Not a valid URL format!");
                     shortURL = "Not a valid URL format";
                     showResult();
                 }
@@ -147,4 +136,4 @@ MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds135069.mlab.com:35069/nino
     app.listen(process.env.PORT || port);
     console.log('Express started on port ' + port);
 
-}); // MongoClient.connect('mongodb://localhost:27017/URLshort', function (err, db) {
+});
