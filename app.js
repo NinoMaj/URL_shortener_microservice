@@ -16,7 +16,7 @@ let express = require('express'),
 let exphbs = require('express-handlebars');
 let hbs;
 
-MongoClient.connect('mongodb://NinoMaj:bosswarmLab1@ds113630.mlab.com:13630/heroku_2mhnmmqp', function (err, db) {
+MongoClient.connect('mongodb://Nino:blabla37@ds113630.mlab.com:13630/heroku_2mhnmmqp', function (err, db) {
 
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
