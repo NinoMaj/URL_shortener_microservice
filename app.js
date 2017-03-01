@@ -16,8 +16,7 @@ let express = require('express'),
 let exphbs = require('express-handlebars');
 let hbs;
 
-let uri = process.env.MONGOLAB_URI;
-MongoClient.connect('uri', function (err, db) {
+MongoClient.connect('mongodb://heroku_2mhnmmqp:49v80432c5bgknh2k4cu2fdam3@ds113630.mlab.com:13630/heroku_2mhnmmqp', function (err, db) {
 
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
