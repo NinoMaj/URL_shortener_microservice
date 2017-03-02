@@ -3307,6 +3307,17 @@ label,
 /**
  * GRID
 */
+/* line 9, sass/ui/_scaffolding.scss */
+.container {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+/* line 14, sass/ui/_scaffolding.scss */
+a {
+  color: #EEE;
+}
+
 /*------------------------------------*\
     $GRID
 \*------------------------------------*/
@@ -3631,6 +3642,12 @@ body {
   border: none !important;
 }
 
+/* line 121, sass/ui/_color.scss */
+body {
+  color: #FFF;
+  background-color: #475061;
+}
+
 /*------------------------------------*\
     $CONTENTS
 \*------------------------------------*/
@@ -3776,6 +3793,12 @@ footer {
 /* line 40, sass/screen.scss */
 a {
   color: #EEE;
+}
+
+/* line 44, sass/screen.scss */
+body {
+  color: #FFF;
+  background-color: #475061;
 }
 
 /*# sourceMappingURL=screen.css.map */
